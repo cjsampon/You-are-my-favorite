@@ -15,31 +15,31 @@ var config = require("./config"),
 app.get("/", function(req, res) {
 	res.redirect("https://twitter.com/" + screen_name);
 });
-app.listen(3000);
+app.listen(80);
 
 /**
  * Helper function for favoriting a tweet if it isn't already favorited or is a retweet.
  */
 var favoriteTweet = function(tweet) {
 	if(toString.call(tweet) !== "[object Object]") return console.log("That's not a valid tweet!");
-	T.get("statuses/show", { id: tweet.id_str }, function(err,data,response) {
-		if(err)                   return console.log(JSON.stringify(err));
-		if(data.retweeted_status) return console.log("That's just a retweet!");
-		if(data.favorited)        return console.log("We already liked that tweet!");
-		T.post("favorites/create", { id: data.id_str }, function(err,data,response) {
-			if(err) return console.log(JSON.stringify(err));
-			console.log("Successfully favorited the tweet!");
+	setTimeout(function() {
+		T.get("statuses/show", { id: tweet.id_str }, function(err,data,response) {
+			if(err)                   return console.log(JSON.stringify(err));
+			if(data.retweeted_status) return console.log("That's just a retweet!");
+			if(data.favorited)        return console.log("We already liked that tweet!");
+			T.post("favorites/create", { id: data.id_str }, function(err,data,response) {
+				if(err) return console.log(JSON.stringify(err));
+				console.log("Successfully favorited the tweet!");
+			});
 		});
-	});
+	}, config.interval);
 };
 /**
  * Find the user's most recent tweets and favorite them every so often.
  */
 T.get("statuses/user_timeline", { screen_name: screen_name }, function(err,data,response) {
 	for(var i=0; i<data.length; i++) {
-		setTimeout(function() {
-			favoriteTweet(data[i]);
-		}, config.interval);
+		favoriteTweet(data[i]);
 	}
 });
 /**

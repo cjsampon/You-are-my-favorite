@@ -1,12 +1,12 @@
 {
-  "name": "You are my favorite",
+  "name": "You-are-my-favorite",
   "author": "Christopher Sampon",
   "version": "1.0.0",
   "description": "Given a Twitter screen name, will pull their latest tweets and favorite them in a non-aggressive manner.",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app"
   },
   "keywords": [
     "twitter",
@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "express": "4.*",
-    "twit": "2.*",
+    "twit": "2.*"
   },
   "license": "ISC"
 }
